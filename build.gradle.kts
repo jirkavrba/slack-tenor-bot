@@ -40,11 +40,11 @@ java {
 
 tasks {
     dockerBuild {
-        images = listOf("${System.getenv("DOCKER_IMAGE") ?: "ghcr.io/jirkavrba/slack-tenor-bot"}:latest")
+        images = listOf("ghcr.io/jirkavrba/slack-tenor-bot:latest")
     }
 
     dockerBuildNative {
-        images = listOf("${System.getenv("DOCKER_IMAGE") ?: "ghcr.io/jirkavrba/slack-tenor-bot"}:latest")
+        images = listOf("ghcr.io/jirkavrba/slack-tenor-bot:latest")
     }
 }
 

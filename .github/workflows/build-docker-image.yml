@@ -33,8 +33,6 @@ jobs:
 
       - name: Build Docker image
         run: ./gradlew optimizedDockerBuildNative
-        env:
-          DOCKER_IMAGE: ghcr.io/jirkavrba/slack-tenor-bot
 
       - name: Push Docker image to container registry
         run: docker push ghcr.io/jirkavrba/slack-tenor-bot:latest
