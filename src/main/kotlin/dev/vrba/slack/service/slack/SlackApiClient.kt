@@ -1,7 +1,8 @@
 package dev.vrba.slack.service.slack
 
 import dev.vrba.slack.service.slack.dto.SlackViewOpenRequest
-import dev.vrba.slack.service.slack.dto.SlackViewOpenResponse
+import dev.vrba.slack.service.slack.dto.SlackViewResponse
+import dev.vrba.slack.service.slack.dto.SlackViewUpdateRequest
 import io.micronaut.http.HttpHeaders
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
@@ -16,5 +17,10 @@ interface SlackApiClient {
     @Post("/api/views.open")
     suspend fun openView(
         @Body request: SlackViewOpenRequest,
-    ): SlackViewOpenResponse
+    ): SlackViewResponse
+
+    @Post("/api/views.update")
+    suspend fun updateView(
+        @Body request: SlackViewUpdateRequest,
+    ): SlackViewResponse
 }
