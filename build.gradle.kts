@@ -24,13 +24,12 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("org.yaml:snakeyaml")
 }
-
 
 application {
     mainClass = "dev.vrba.slack.ApplicationKt"
@@ -39,17 +38,18 @@ java {
     sourceCompatibility = JavaVersion.toVersion("17")
 }
 
-
 tasks {
     dockerBuild {
-        images = listOf("${System.getenv("DOCKER_IMAGE") ?: project.name}:${project.version}")
+        images = listOf("${System.getenv("DOCKER_IMAGE") ?: project.name}:latest")
     }
 
     dockerBuildNative {
-        images = listOf("${System.getenv("DOCKER_IMAGE") ?: project.name}:${project.version}")
+        images = listOf("${System.getenv("DOCKER_IMAGE") ?: project.name}:latest")
     }
 }
+
 graalvmNative.toolchainDetection = false
+
 micronaut {
     runtime("netty")
     testRuntime("kotest5")
@@ -70,6 +70,3 @@ micronaut {
         replaceLogbackXml = true
     }
 }
-
-
-
