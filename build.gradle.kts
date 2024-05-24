@@ -11,6 +11,7 @@ version = "0.1"
 group = "dev.vrba.slack"
 
 val kotlinVersion = project.properties.get("kotlinVersion")
+
 repositories {
     mavenCentral()
 }
@@ -34,11 +35,18 @@ dependencies {
 application {
     mainClass = "dev.vrba.slack.ApplicationKt"
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
 }
 
 tasks {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+    }
+
     dockerBuild {
         images = listOf("ghcr.io/jirkavrba/slack-tenor-bot:latest")
     }
