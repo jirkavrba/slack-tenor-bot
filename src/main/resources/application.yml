@@ -7,6 +7,9 @@ micronaut:
       slack:
         url: https://slack.com
 
+      tenor:
+        url: https://tenor.googleapis.com/v2
+
   serde:
     serialization:
       inclusion: NON_NULL
@@ -20,4 +23,4 @@ credentials:
     bot: ${SLACK_BOT_TOKEN}
 
   tenor:
-    api: ${TENOR_API_KEY}
+    api-key: ${TENOR_API_KEY}
