@@ -11,6 +11,7 @@ version = "0.1"
 group = "dev.vrba.slack"
 
 val kotlinVersion = project.properties.get("kotlinVersion")
+val kotlinExtensionsVersion = project.properties.get("kotlinExtensionsVersion")
 
 repositories {
     mavenCentral()
@@ -27,6 +28,8 @@ dependencies {
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinExtensionsVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinExtensionsVersion")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("org.yaml:snakeyaml")

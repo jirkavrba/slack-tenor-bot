@@ -1,3 +1,23 @@
 micronaut:
   application:
     name: slack-tenor-bot
+
+  http:
+    services:
+      slack:
+        url: https://slack.com
+
+  serde:
+    serialization:
+      inclusion: NON_NULL
+
+logger:
+  levels:
+    io.micronaut.http.client: TRACE
+
+credentials:
+  slack:
+    bot: ${SLACK_BOT_TOKEN}
+
+  tenor:
+    api: ${TENOR_API_KEY}
