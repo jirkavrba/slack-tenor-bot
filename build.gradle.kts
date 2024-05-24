@@ -47,12 +47,22 @@ tasks {
         }
     }
 
+    val image = System.getenv("DOCKER_IMAGE") ?: project.name
+
     dockerBuild {
-        images = listOf("ghcr.io/jirkavrba/slack-tenor-bot:latest")
+        images = listOf(image)
     }
 
     dockerBuildNative {
-        images = listOf("ghcr.io/jirkavrba/slack-tenor-bot:latest")
+        images = listOf(image)
+    }
+
+    optimizedDockerBuild {
+        images = listOf(image)
+    }
+
+    optimizedDockerBuildNative {
+        images = listOf(image)
     }
 }
 
