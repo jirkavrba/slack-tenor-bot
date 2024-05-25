@@ -39,11 +39,9 @@ public class SlackCommandController {
             request.get("response_url")
         );
 
-        tenor.run(payload)
+        return tenor.run(payload)
             .doOnError(error -> logger.error("Error while running the /tenor command", error))
             .subscribeOn(Schedulers.boundedElastic())
-            .subscribe();
-
-        return Mono.just(HttpResponse.noContent());
+            .thenReturn(HttpResponse.noContent());
     }
 }
