@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: dev.vrba.slack.tenor.bot
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle_kotlin
+features: [ app-name, graalvm, gradle, http-client, java, java-application, junit, logback, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, reactor, reactor-http-client, readme, serialization-jackson, shade, static-resources, yaml, yaml-build ]
