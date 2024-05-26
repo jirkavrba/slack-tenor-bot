@@ -14,10 +14,6 @@ micronaut:
     serialization:
       inclusion: non_null
 
-logger:
-  levels:
-    io.micronaut.http: TRACE
-
 bot:
   credentials:
     tenor:

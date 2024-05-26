@@ -1,6 +1,7 @@
 package dev.vrba.slack.tenor.bot.service.slack;
 
 import dev.vrba.slack.tenor.bot.service.slack.dto.*;
+import dev.vrba.slack.tenor.bot.service.storage.ResultsStorageService;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.HttpClient;
@@ -15,10 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class SlackService {
     @NonNull
+    private final HttpClient genericClient;
+
+    @NonNull
     private final SlackApiClient slackClient;
 
     @NonNull
-    private final HttpClient genericClient;
+    private final ResultsStorageService resultsStorageService;
 
     @NonNull
     public Mono<SlackViewResponse> openLoadingView(
@@ -103,7 +107,18 @@ public class SlackService {
 
     @NonNull
     public Mono<Void> handleBlockAction(@NonNull SlackBlockActionsInteraction interaction) {
-        System.out.println(interaction);
-        return Mono.empty();
+        final var view = interaction.getView().getId();
+        final var results = resultsStorageService.get(view);
+
+        return results.map(result -> {
+                final var next = interaction.getActions().stream().anyMatch(it -> it.getValue().equals("next"));
+                final var updatedIndex = result.getIndex() + (next ? 1 : -1);
+                final var updatedResults = result.withIndex(updatedIndex);
+
+                resultsStorageService.store(view, updatedResults);
+
+                return updateSelectionView(view, updatedResults.getCurrentResult(), interaction.getView().getMetadata());
+            })
+            .orElse(Mono.empty());
     }
 }
