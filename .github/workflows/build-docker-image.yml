@@ -2,8 +2,8 @@ name: Build Docker image
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - main
     paths:
       - gradle.properties
       - build.gradle.kts
@@ -34,7 +34,7 @@ jobs:
       - name: Build Docker image
         run: ./gradlew optimizedDockerBuildNative
         env:
-          DOCKER_IMAGE: ghcr.io/jirkavrba/slack-tenor-bot:${{ github.ref_name }}
+          DOCKER_IMAGE: ghcr.io/jirkavrba/slack-tenor-bot:latest
 
       - name: Push Docker image to container registry
-        run: docker push ghcr.io/jirkavrba/slack-tenor-bot:${{ github.ref_name }}
+        run: docker push ghcr.io/jirkavrba/slack-tenor-bot:latest
