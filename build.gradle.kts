@@ -4,7 +4,7 @@ plugins {
     id("io.micronaut.aot") version "4.3.8"
 }
 
-version = "0.1"
+version = "1.0"
 group = "dev.vrba.slack.tenor.bot"
 
 repositories {
