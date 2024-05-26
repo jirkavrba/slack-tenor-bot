@@ -2,6 +2,8 @@ package dev.vrba.slack.tenor.bot.service.slack;
 
 import dev.vrba.slack.tenor.bot.service.slack.dto.*;
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.client.HttpClient;
 import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -11,9 +13,12 @@ import java.util.List;
 
 @Singleton
 @AllArgsConstructor
-public class SlackModalService {
+public class SlackService {
     @NonNull
-    private final SlackApiClient client;
+    private final SlackApiClient slackClient;
+
+    @NonNull
+    private final HttpClient genericClient;
 
     @NonNull
     public Mono<SlackViewResponse> openLoadingView(
@@ -33,7 +38,7 @@ public class SlackModalService {
             )
         );
 
-        return client.openView(request);
+        return slackClient.openView(request);
     }
 
     @NonNull
@@ -75,6 +80,30 @@ public class SlackModalService {
             )
         );
 
-        return client.updateView(request).then();
+        return slackClient.updateView(request).then();
+    }
+
+    @NonNull
+    public Mono<?> handleViewSubmission(@NonNull SlackViewSubmissionInteraction interaction) {
+        final var hook = interaction.getView().getMetadata();
+        final var image = (SlackImageBlock) interaction.getView().getBlocks()
+            .stream()
+            .filter(it -> it instanceof SlackImageBlock)
+            .findFirst()
+            .orElseThrow();
+
+        final var user = interaction.getUser().getId();
+        final var payload = new SlackWebhookRequest(
+            "in_channel",
+            String.format("<@%s> is sending a GIF from Tenor\n%s", user, image.getUrl())
+        );
+
+        return Mono.from(genericClient.exchange(HttpRequest.POST(hook, payload), Void.class));
+    }
+
+    @NonNull
+    public Mono<Void> handleBlockAction(@NonNull SlackBlockActionsInteraction interaction) {
+        System.out.println(interaction);
+        return Mono.empty();
     }
 }
