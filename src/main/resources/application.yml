@@ -14,6 +14,9 @@ micronaut:
     serialization:
       inclusion: non_null
 
+  server:
+    port: ${PORT:8080}
+
 bot:
   credentials:
     tenor:
